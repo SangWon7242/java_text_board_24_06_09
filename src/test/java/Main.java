@@ -3,7 +3,10 @@ import java.util.List;
 
 public class Main {
   public static void main(String[] args) {
-    String queryString = "b=20&a=100&c=30&d=40&e=50";
+    // 압축 된 데이터
+    String queryString = "count=1&id=33&age=14&studentNo=65";
+    
+    // 압축 해제 시작
     String[] queryStringBits = queryString.split("&");
 
     List<String> paramNames = new ArrayList<>();
@@ -15,12 +18,12 @@ public class Main {
       paramNames.add(bitBits[0]);
       paramValues.add(Integer.parseInt(bitBits[1]));
     }
+    // 압축 해제 끝
 
-    for(int i = 0; i < paramNames.size(); i++) {
-      String paramName = paramNames.get(i);
-      int paramValue = paramValues.get(i);
+    System.out.println(paramNames);
+    System.out.println(paramValues);
 
-      System.out.printf("%s : %d\n", paramName, paramValue);
-    }
+    int findIndex = paramNames.indexOf("id");
+    System.out.printf("id : %d\n", paramValues.get(findIndex));
   }
 }
