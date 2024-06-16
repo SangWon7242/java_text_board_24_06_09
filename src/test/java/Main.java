@@ -4,7 +4,12 @@ public class Main {
     String[] queryStringBits = queryString.split("&");
 
     for(String bit : queryStringBits) {
-      System.out.println(bit);
+      String[] bitBits = bit.split("=");
+
+      String paramName = bitBits[0];
+      String paramValue = bitBits[1];
+
+      System.out.printf("%s : %s\n", paramName, paramValue);
     }
   }
 }
