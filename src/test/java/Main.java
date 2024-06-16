@@ -2,17 +2,23 @@ import java.util.*;
 
 public class Main {
   public static void main(String[] args) {
-    Map<String, String> params = Util.getParams("id=33&hitCount=1&name=Bob&calc=[1=2]");
+    Map<String, String> params = Util.getParamsFromUrl("/usr/article/list?page=2&searchKeyword=안녕? 나는");
     System.out.println(params);
-    System.out.println(params.get("id")); // 33
-    System.out.println(params.get("name")); // Bob
-    System.out.println(params.get("calc"));
+    System.out.println(params.get("page")); // 2
+    System.out.println(params.get("searchKeyword")); // 안녕
   }
 }
 
 class Util {
-  static Map<String, String> getParams(String queryStr) {
+  static Map<String, String> getParamsFromUrl(String url) {
     Map<String, String> params = new HashMap<>();
+    String[] urlBits = url.split("\\?", 2);
+
+    if(urlBits.length == 1) {
+      return params;
+    }
+
+    String queryStr= urlBits[1];
 
     for(String bit : queryStr.split("&")) {
       String[] bits = bit.split("=", 2);
