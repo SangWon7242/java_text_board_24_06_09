@@ -50,7 +50,6 @@ public class Main {
         int id = ++articleLastId;
 
         Article article = new Article(id, title, content);
-        lastArticle = article;
 
         articles.add(article);
 
