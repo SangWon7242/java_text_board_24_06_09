@@ -6,6 +6,12 @@ public class Main {
     System.out.println(params);
     System.out.println(params.get("page")); // 2
     System.out.println(params.get("searchKeyword")); // 안녕
+
+    String urlPath = Util.getUrlPathFromUrl("/usr/article/list?page=2&searchKeyword=안녕? 나는");
+    System.out.println(urlPath);
+
+    urlPath = Util.getUrlPathFromUrl("/usr/article/list");
+    System.out.println(urlPath);
   }
 }
 
@@ -31,5 +37,9 @@ class Util {
     }
 
     return params;
+  }
+
+  static String getUrlPathFromUrl(String url) {
+    return url.split("\\?", 2)[0];
   }
 }
