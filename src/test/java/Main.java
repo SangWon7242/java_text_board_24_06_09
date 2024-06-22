@@ -1,66 +1,41 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
   public static void main(String[] args) {
-    Rq rq = new Rq("/usr/article/list?page=2&searchKeyword=안녕? 나는");
+    List<Article> articles = new ArrayList<>();
+    articles.add(new Article(1, "제목1", "내용1"));
+    articles.add(new Article(2, "안녕하세요.", "반가워요"));
+    articles.add(new Article(3, "자바는 할만한가요?", "자바는 어렵습니다."));
 
-    Map<String, String> params = rq.getParams();
-    System.out.println(params);
-    System.out.println(rq.getParams());
-    System.out.println(rq.getParams());
+    String searchKeyword = "1";
 
-    String urlPath = rq.getUrlPath();
-    System.out.println(urlPath);
-    System.out.println(rq.getUrlPath());
-    System.out.println(rq.getUrlPath());
-  }
-}
+    List<Article> filteredArticles = new ArrayList<>();
 
-class Rq {
-  String url;
-  Map<String, String> params;
-  String urlPath;
-
-  Rq(String url) {
-    this.url = url;
-    params = Util.getParamsFromUrl(this.url);
-    urlPath = Util.getUrlPathFromUrl(this.url);
-  }
-
-  public Map<String, String> getParams() {
-    return params;
-  }
-
-  public String getUrlPath() {
-    return urlPath;
-  }
-}
-
-class Util {
-  static Map<String, String> getParamsFromUrl(String url) {
-    Map<String, String> params = new HashMap<>();
-    String[] urlBits = url.split("\\?", 2);
-
-    if(urlBits.length == 1) {
-      return params;
-    }
-
-    String queryStr= urlBits[1];
-
-    for(String bit : queryStr.split("&")) {
-      String[] bits = bit.split("=", 2);
-
-      if(bits.length == 1) {
-        continue;
+    for(Article article : articles) {
+      if(article.title.contains(searchKeyword) || article.content.contains(searchKeyword)) {
+        filteredArticles.add(article);
       }
-
-      params.put(bits[0], bits[1]);
     }
 
-    return params;
+    System.out.println(filteredArticles);
+
+  }
+}
+
+class Article {
+  int id;
+  String title;
+  String content;
+
+  Article(int id, String title, String content) {
+    this.id = id;
+    this.title = title;
+    this.content = content;
   }
 
-  static String getUrlPathFromUrl(String url) {
-    return url.split("\\?", 2)[0];
+  @Override
+  public String toString() {
+    return "{id: %d, title: \"%s\", body: \"%s\"}".formatted(id, title, content);
   }
 }
