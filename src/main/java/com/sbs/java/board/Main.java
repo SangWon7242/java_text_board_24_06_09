@@ -6,15 +6,8 @@ import java.util.stream.IntStream;
 public class Main {
 
   static void makeTestData(List<Article> articles) {
-    /*
-    for(int i = 1; i <= 100; i++) {
-      articles.add(new Article(i, "제목" + i, "내용" + i));
-    }
-     */
-
     IntStream.rangeClosed(1, 100)
-        .forEach(i -> new Article(i, "제목" + i, "내용" + i));
-
+        .forEach(i -> articles.add(new Article(i, "제목" + i, "내용" + i)));
   }
 
   public static void main(String[] args) {
@@ -104,14 +97,31 @@ public class Main {
           orderByIdDesc = false;
         }
 
+        // articles : 정렬 되지 않은 1 ~ 100개의 게시물
+        List<Article> filteredArticles = articles;
+
+        if(params.containsKey("searchKeyword")) {
+          String searchKeyword = params.get("searchKeyword");
+
+          filteredArticles = new ArrayList<>();
+
+          for(Article article : articles) {
+            if(article.title.contains(searchKeyword) || article.content.contains(searchKeyword)) {
+              filteredArticles.add(article);
+            }
+          }
+        }
+
+        List<Article> sortedArticles = filteredArticles;
+
         if(orderByIdDesc) {
-          for(int i = articles.size() - 1; i >= 0; i--) {
-            Article article = articles.get(i);
+          for(int i = sortedArticles.size() - 1; i >= 0; i--) {
+            Article article = sortedArticles.get(i);
             System.out.printf("%d | %s\n", article.id, article.title);
           }
         }
         else {
-          for(Article article : articles) {
+          for(Article article : sortedArticles) {
             System.out.printf("%d | %s\n", article.id, article.title);
           }
         }
