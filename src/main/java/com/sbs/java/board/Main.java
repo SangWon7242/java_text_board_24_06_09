@@ -29,32 +29,10 @@ public class Main {
       String cmd = sc.nextLine();
 
       Rq rq = new Rq(cmd);
-      Map<String, String> params = rq.getParams();
 
       if (rq.getUrlPath().equals("/usr/article/write")) {
-        System.out.print("제목 : ");
-        String title = sc.nextLine();
-
-        if(title.trim().isEmpty()) {
-          System.out.println("제목을 입력해주세요.");
-          continue;
-        }
-
-        System.out.print("내용 : ");
-        String content = sc.nextLine();
-
-        if(content.trim().isEmpty()) {
-          System.out.println("내용을 입력해주세요.");
-          continue;
-        }
-
-        int id = ++articleLastId;
-
-        Article article = new Article(id, title, content);
-
-        articles.add(article);
-
-        System.out.printf("%d번 게시물이 등록되었습니다.\n", article.id);
+        actionUsrArticleWrite(sc, articleLastId, articles);
+        articleLastId++;
       } else if (rq.getUrlPath().equals("/usr/article/detail")) {
         actionUsrArticleDetail(rq, articles);
       } else if (rq.getUrlPath().equals("/usr/article/list")) {
@@ -68,6 +46,32 @@ public class Main {
     }
 
     sc.close();
+  }
+
+  private static void actionUsrArticleWrite(Scanner sc, int articleLastId, List<Article> articles) {
+    System.out.print("제목 : ");
+    String title = sc.nextLine();
+
+    if(title.trim().isEmpty()) {
+      System.out.println("제목을 입력해주세요.");
+      return;
+    }
+
+    System.out.print("내용 : ");
+    String content = sc.nextLine();
+
+    if(content.trim().isEmpty()) {
+      System.out.println("내용을 입력해주세요.");
+      return;
+    }
+
+    int id = ++articleLastId;
+
+    Article article = new Article(id, title, content);
+
+    articles.add(article);
+
+    System.out.printf("%d번 게시물이 등록되었습니다.\n", article.id);
   }
 
   private static void actionUsrArticleDetail(Rq rq, List<Article> articles) {
