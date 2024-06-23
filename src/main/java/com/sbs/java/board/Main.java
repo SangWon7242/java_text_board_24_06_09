@@ -88,45 +88,7 @@ public class Main {
         System.out.printf("제목 : %s\n", article.title);
         System.out.printf("내용 : %s\n", article.content);
       } else if (rq.getUrlPath().equals("/usr/article/list")) {
-        System.out.println("== 게시물 리스트 ==");
-        System.out.println("번호 | 제목");
-
-        boolean orderByIdDesc = true; // 역순 정렬에 대한 코드
-
-        if(params.containsKey("orderBy") && params.get("orderBy").equals("idAsc")) {
-          orderByIdDesc = false;
-        }
-        
-        // 검색 시작
-        // articles : 정렬 되지 않은 1 ~ 100개의 게시물
-        List<Article> filteredArticles = articles;
-
-        if(params.containsKey("searchKeyword")) {
-          String searchKeyword = params.get("searchKeyword");
-
-          filteredArticles = new ArrayList<>();
-
-          for(Article article : articles) {
-            if(article.title.contains(searchKeyword) || article.content.contains(searchKeyword)) {
-              filteredArticles.add(article);
-            }
-          }
-        }
-        // 검색 끝
-        
-        // 정렬 시작
-        List<Article> sortedArticles = filteredArticles;
-
-        if(orderByIdDesc) {
-          sortedArticles = Util.reverseList(sortedArticles);
-        }
-        // 정렬 끝
-        
-        // 게시물 리스트 출력
-        for(Article article : sortedArticles) {
-          System.out.printf("%d | %s\n", article.id, article.title);
-        }
-
+        actionUsrArticleList(rq, articles);
       } else if (cmd.equals("exit")) {
         System.out.println("== 자바 텍스트 게시판 종료 ==");
         break;
@@ -136,6 +98,50 @@ public class Main {
     }
 
     sc.close();
+  }
+
+  private static void actionUsrArticleList(Rq rq, List<Article> articles) {
+    Map<String, String> params = rq.getParams();
+
+    System.out.println("== 게시물 리스트 ==");
+    System.out.println("번호 | 제목");
+
+    boolean orderByIdDesc = true; // 역순 정렬에 대한 코드
+
+    if(params.containsKey("orderBy") && params.get("orderBy").equals("idAsc")) {
+      orderByIdDesc = false;
+    }
+
+    // 검색 시작
+    // articles : 정렬 되지 않은 1 ~ 100개의 게시물
+    List<Article> filteredArticles = articles;
+
+    if(params.containsKey("searchKeyword")) {
+      String searchKeyword = params.get("searchKeyword");
+
+      filteredArticles = new ArrayList<>();
+
+      for(Article article : articles) {
+        if(article.title.contains(searchKeyword) || article.content.contains(searchKeyword)) {
+          filteredArticles.add(article);
+        }
+      }
+    }
+    // 검색 끝
+
+    // 정렬 시작
+    List<Article> sortedArticles = filteredArticles;
+
+    if(orderByIdDesc) {
+      sortedArticles = Util.reverseList(sortedArticles);
+    }
+    // 정렬 끝
+
+    // 게시물 리스트 출력
+    for(Article article : sortedArticles) {
+      System.out.printf("%d | %s\n", article.id, article.title);
+    }
+
   }
 }
 
