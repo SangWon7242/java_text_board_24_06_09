@@ -91,12 +91,13 @@ public class Main {
         System.out.println("== 게시물 리스트 ==");
         System.out.println("번호 | 제목");
 
-        boolean orderByIdDesc = true;
+        boolean orderByIdDesc = true; // 역순 정렬에 대한 코드
 
         if(params.containsKey("orderBy") && params.get("orderBy").equals("idAsc")) {
           orderByIdDesc = false;
         }
-
+        
+        // 검색 시작
         // articles : 정렬 되지 않은 1 ~ 100개의 게시물
         List<Article> filteredArticles = articles;
 
@@ -111,22 +112,20 @@ public class Main {
             }
           }
         }
-
+        // 검색 끝
+        
+        // 정렬 시작
         List<Article> sortedArticles = filteredArticles;
 
         if(orderByIdDesc) {
-          for(int i = sortedArticles.size() - 1; i >= 0; i--) {
-            Article article = sortedArticles.get(i);
-            System.out.printf("%d | %s\n", article.id, article.title);
-          }
+          sortedArticles = Util.reverseList(sortedArticles);
         }
-        else {
-          for(Article article : sortedArticles) {
-            System.out.printf("%d | %s\n", article.id, article.title);
-          }
+        // 정렬 끝
+        
+        // 게시물 리스트 출력
+        for(Article article : sortedArticles) {
+          System.out.printf("%d | %s\n", article.id, article.title);
         }
-
-
 
       } else if (cmd.equals("exit")) {
         System.out.println("== 자바 텍스트 게시판 종료 ==");
@@ -203,5 +202,15 @@ class Util {
 
   static String getUrlPathFromUrl(String url) {
     return url.split("\\?", 2)[0];
+  }
+
+  // 이 함수는 원본리스트를 훼손하지 않고, 새 리스트를 만듭니다. 즉 정렬이 반대인 복사본리스트를 만들어서 반환합니다.
+  public static<T> List<T> reverseList(List<T> list) {
+    List<T> reverse = new ArrayList<>(list.size());
+
+    for ( int i = list.size() - 1; i >= 0; i-- ) {
+      reverse.add(list.get(i));
+    }
+    return reverse;
   }
 }
