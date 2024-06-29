@@ -2,11 +2,14 @@ package com.sbs.java.board;
 
 import com.sbs.java.board.article.controller.ArticleController;
 import com.sbs.java.board.container.Container;
+import com.sbs.java.board.member.controller.MemberController;
 
 public class App {
+  MemberController memberController;
   ArticleController articleController;
 
   public App() {
+    memberController = Container.memberController;
     articleController = Container.articleController;
   }
 
@@ -29,6 +32,8 @@ public class App {
         articleController.actionModify(rq);
       } else if (rq.getUrlPath().equals("/usr/article/delete")) {
         articleController.actionDelete(rq);
+      } else if (rq.getUrlPath().equals("/usr/member/join")) {
+        memberController.actionJoin();
       } else if (cmd.equals("exit")) {
         System.out.println("== 자바 텍스트 게시판 종료 ==");
         break;

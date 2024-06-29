@@ -1,13 +1,12 @@
 package com.sbs.java.board.article.controller;
 
 import com.sbs.java.board.Article;
-import com.sbs.java.board.container.Container;
 import com.sbs.java.board.Rq;
 import com.sbs.java.board.Util;
+import com.sbs.java.board.container.Container;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 public class ArticleController {

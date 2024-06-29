@@ -1,6 +1,7 @@
 package com.sbs.java.board.container;
 
 import com.sbs.java.board.article.controller.ArticleController;
+import com.sbs.java.board.member.controller.MemberController;
 
 import java.util.Scanner;
 
@@ -8,11 +9,13 @@ import java.util.Scanner;
 public class Container {
   public static Scanner sc;
 
+  public static MemberController memberController;
   public static ArticleController articleController;
 
   static {
     sc = new Scanner(System.in);
 
+    memberController = new MemberController();
     articleController = new ArticleController();
   }
 }
