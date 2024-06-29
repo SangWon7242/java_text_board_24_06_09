@@ -4,8 +4,13 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
-  static int articleLastId = 0;
-  static List<Article> articles = new ArrayList<>();
+  static int articleLastId;
+  static List<Article> articles;
+
+  static {
+    articleLastId = 0;
+    articles = new ArrayList<>();
+  }
 
   static void makeTestData() {
     IntStream.rangeClosed(1, 100)
@@ -72,7 +77,7 @@ public class Main {
 
     Article article = articleFindById(id, articles);
 
-    if(article == null) {
+    if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
       return;
     }
@@ -106,7 +111,7 @@ public class Main {
 
     Article article = articleFindById(id, articles);
 
-    if(article == null) {
+    if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
       return;
     }
@@ -169,7 +174,7 @@ public class Main {
 
     Article article = articleFindById(id, articles);
 
-    if(article == null) {
+    if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
       return;
     }
@@ -224,8 +229,8 @@ public class Main {
   }
 
   private static Article articleFindById(int id, List<Article> articles) {
-    for(Article article : articles) {
-      if(article.id == id) {
+    for (Article article : articles) {
+      if (article.id == id) {
         return article;
       }
     }
