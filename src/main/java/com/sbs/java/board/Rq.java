@@ -1,9 +1,9 @@
 package com.sbs.java.board;
 
 import com.sbs.java.board.container.Container;
+import com.sbs.java.board.member.entity.Member;
 import com.sbs.java.board.session.Session;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.Map;
 

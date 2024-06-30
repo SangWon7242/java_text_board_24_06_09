@@ -1,6 +1,6 @@
 package com.sbs.java.board.member.controller;
 
-import com.sbs.java.board.Member;
+import com.sbs.java.board.member.entity.Member;
 import com.sbs.java.board.Rq;
 import com.sbs.java.board.container.Container;
 

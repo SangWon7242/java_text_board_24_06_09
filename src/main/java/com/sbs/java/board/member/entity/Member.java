@@ -1,4 +1,4 @@
-package com.sbs.java.board;
+package com.sbs.java.board.member.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Article {
+public class Member {
   private int id;
-  private String title;
-  private String content;
+  private String username;
+  private String password;
+  private String name;
 }

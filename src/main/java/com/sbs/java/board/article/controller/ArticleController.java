@@ -1,32 +1,19 @@
 package com.sbs.java.board.article.controller;
 
-import com.sbs.java.board.Article;
+import com.sbs.java.board.article.entity.Article;
 import com.sbs.java.board.Rq;
 import com.sbs.java.board.Util;
+import com.sbs.java.board.article.service.ArticleService;
 import com.sbs.java.board.container.Container;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class ArticleController {
-  int articleLastId;
-  List<Article> articles;
+  private ArticleService articleService;
 
   public ArticleController() {
-    articleLastId = 0;
-    articles = new ArrayList<>();
-
-    makeTestData();
-
-    if (!articles.isEmpty()) {
-      articleLastId = articles.get(articles.size() - 1).getId();
-    }
-  }
-
-  void makeTestData() {
-    IntStream.rangeClosed(1, 100)
-        .forEach(i -> articles.add(new Article(i, "제목" + i, "내용" + i)));
+    articleService = Container.articleService;
   }
 
   public void actionWrite() {
@@ -46,13 +33,9 @@ public class ArticleController {
       return;
     }
 
-    int id = ++articleLastId;
+    articleService.write(title, content);
 
-    Article article = new Article(id, title, content);
-
-    articles.add(article);
-
-    System.out.printf("%d번 게시물이 등록되었습니다.\n", article.getId());
+    System.out.println("게시물이 등록되었습니다.");
   }
 
   public void showDetail(Rq rq) {
@@ -63,12 +46,14 @@ public class ArticleController {
       return;
     }
 
+    List<Article> articles = articleService.getArticles();
+
     if (articles.isEmpty()) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
-    Article article = articleFindById(id, articles);
+    Article article = articleService.findById(id);
 
     if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -89,13 +74,13 @@ public class ArticleController {
     System.out.println("== 게시물 리스트 ==");
     System.out.println("번호 | 제목");
 
-    List<Article> filteredArticles = articles;
+    List<Article> filteredArticles = articleService.getArticles();
     
     // 검색 시작
     if (!searchKeyword.isEmpty()) {
       filteredArticles = new ArrayList<>();
 
-      for (Article article : articles) {
+      for (Article article : articleService.getArticles()) {
         if (article.getTitle().contains(searchKeyword) || article.getTitle().contains(searchKeyword)) {
           filteredArticles.add(article);
         }
@@ -125,12 +110,14 @@ public class ArticleController {
       return;
     }
 
+    List<Article> articles = articleService.getArticles();
+
     if (articles.isEmpty()) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
-    Article article = articleFindById(id, articles);
+    Article article = articleService.findById(id);
 
     if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -153,30 +140,22 @@ public class ArticleController {
       return;
     }
 
+    List<Article> articles = articleService.getArticles();
+
     if (articles.isEmpty()) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
-    Article article = articleFindById(id, articles);
+    Article article = articleService.findById(id);
 
     if (article == null) {
       System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
       return;
     }
 
-    articles.remove(article);
+    articleService.remove(article);
 
     System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
-  }
-
-  private Article articleFindById(int id, List<Article> articles) {
-    for (Article article : articles) {
-      if (article.getId() == id) {
-        return article;
-      }
-    }
-
-    return null;
   }
 }

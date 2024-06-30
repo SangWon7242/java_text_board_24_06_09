@@ -3,6 +3,7 @@ package com.sbs.java.board;
 import com.sbs.java.board.article.controller.ArticleController;
 import com.sbs.java.board.container.Container;
 import com.sbs.java.board.member.controller.MemberController;
+import com.sbs.java.board.member.entity.Member;
 
 public class App {
   MemberController memberController;
