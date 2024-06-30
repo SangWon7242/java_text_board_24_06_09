@@ -3,7 +3,6 @@ package com.sbs.java.board;
 import com.sbs.java.board.article.controller.ArticleController;
 import com.sbs.java.board.container.Container;
 import com.sbs.java.board.member.controller.MemberController;
-import com.sbs.java.board.session.Session;
 
 public class App {
   MemberController memberController;
@@ -18,20 +17,19 @@ public class App {
     System.out.println("== 자바 텍스트 게시판 ==");
 
     while (true) {
-      Session session = Container.getSession();
-      Member loginedMember = (Member) session.getAttribute("loginedMember");
+      Rq rq = new Rq();
 
       String promptName = "명령";
 
-      if(loginedMember != null) {
+      if(rq.isLogined()) {
+        Member loginedMember = rq.getLoginedMember();
         promptName = loginedMember.getUsername();
       }
 
       System.out.printf("%s) ", promptName);
-
       String cmd = Container.sc.nextLine();
 
-      Rq rq = new Rq(cmd);
+      rq.setCommand(cmd);
 
       if (rq.getUrlPath().equals("/usr/article/write")) {
         articleController.actionWrite();

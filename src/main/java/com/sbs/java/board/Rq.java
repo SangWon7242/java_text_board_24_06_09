@@ -2,29 +2,29 @@ package com.sbs.java.board;
 
 import com.sbs.java.board.container.Container;
 import com.sbs.java.board.session.Session;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
 public class Rq {
-  private String url;
-  private Map<String, String> params;
-  private String urlPath;
-  private Session session;
+  public String url;
+  public String loginedMember;
+  public Session session;
 
-  Rq(String url) {
-    this.url = url;
-    params = Util.getParamsFromUrl(this.url);
-    urlPath = Util.getUrlPathFromUrl(this.url);
+  @Getter
+  public Map<String, String> params;
+  @Getter
+  public String urlPath;
 
+  Rq() {
     session = Container.session;
+    loginedMember = "loginedMember";
   }
 
-  public Map<String, String> getParams() {
-    return params;
-  }
-
-  public String getUrlPath() {
-    return urlPath;
+  public void setCommand(String url) {
+    params = Util.getParamsFromUrl(url);
+    urlPath = Util.getUrlPathFromUrl(url);
   }
 
   public int getIntParam(String paramName, int defaultValue) {
@@ -64,7 +64,7 @@ public class Rq {
   // 로그인이 된 경우 : true
   // 로그인이 안 된 경우 : false
   public boolean isLogined() {
-    return hasSessionAttr("loginedMember");
+    return hasSessionAttr(loginedMember);
   }
 
   public boolean isNotLogined() {
@@ -73,11 +73,15 @@ public class Rq {
   
   // 로그인 : 로그인 정보를 세션에 저장
   public void login(String attrName, Object value) {
-    session.setAttribute(attrName, value);
+    setSessionAttr(attrName, value);
   }
 
   // 로그아웃 : 로그인 정보를 세션에서 삭제
   public void logout() {
-    session.removeAttribute("loginedMember");
+    removeSessionAttr(loginedMember);
+  }
+
+  public Member getLoginedMember() {
+    return (Member) session.getAttribute(loginedMember);
   }
 }
