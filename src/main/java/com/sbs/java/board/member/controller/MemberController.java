@@ -6,6 +6,7 @@ import com.sbs.java.board.container.Container;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class MemberController {
   int memberLastId;
@@ -14,6 +15,18 @@ public class MemberController {
   public MemberController() {
     memberLastId = 0;
     members = new ArrayList<>();
+
+    makeTestData();
+
+    if (!members.isEmpty()) {
+      memberLastId = members.get(members.size() - 1).id;
+    }
+  }
+
+  void makeTestData() {
+    members.add(new Member(1, "user1", "1234", "장발장"));
+    members.add(new Member(2, "user2", "1234", "신짱구"));
+    members.add(new Member(3, "user3", "1234", "김철수"));
   }
 
   public void actionJoin() {
@@ -90,5 +103,75 @@ public class MemberController {
     members.add(member);
 
     System.out.printf("\"%s\"님 회원 가입 되었습니다.\n", member.name);
+  }
+
+  public void actionLogin() {
+    String username;
+    String password;
+    Member member;
+
+    System.out.println("== 로그인 ==");
+
+    // username 입력 시작
+    while (true) {
+      System.out.print("로그인 아이디 : ");
+      username = Container.sc.nextLine();
+
+      if(username.trim().isEmpty()) {
+        System.out.println("username(을)를 입력해주세요.");
+        continue;
+      }
+
+      member = memberFindByUserName(username);
+
+      if(member == null) {
+        System.out.printf("\"%s\"(은)는 없는 username 입니다.\n", username);
+        continue;
+      }
+
+      break;
+    }
+    // username 입력 끝
+
+    int tryPasswordCount = 0;
+    int tryPasswordMaxCount = 3;
+
+    // password 입력 시작
+    while (true) {
+      if(tryPasswordCount >= tryPasswordMaxCount) {
+        System.out.println("비밀번호를 다시 확인 후 입력해주세요.");
+        return;
+      }
+
+      System.out.print("비밀번호 : ");
+      password = Container.sc.nextLine();
+
+      if(password.trim().isEmpty()) {
+        System.out.println("password(을)를 입력해주세요.");
+        continue;
+      }
+
+      if(!member.password.equals(password)) {
+        tryPasswordCount++;
+
+        System.out.printf("비밀번호가 일치하지 않습니다.(틀린 횟수 : %d/%d)\n", tryPasswordCount, tryPasswordMaxCount);
+        continue;
+      }
+
+      break;
+    }
+    // password 입력 끝
+
+    System.out.printf("\"%s\"님 로그인 되었습니다.\n", member.username);
+  }
+
+  private Member memberFindByUserName(String username) {
+    Member member = members
+        .stream()
+        .filter(m -> m.username.equals(username)) // 해당 녀석이 참인 것만 필터링
+        .findFirst() // 필터링 결과가 하나만 남는데, 그 하나 남을 가져온다.
+        .orElse(null);
+
+    return member;
   }
 }
