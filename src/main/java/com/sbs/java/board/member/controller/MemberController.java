@@ -1,12 +1,11 @@
 package com.sbs.java.board.member.controller;
 
-import com.sbs.java.board.Article;
 import com.sbs.java.board.Member;
+import com.sbs.java.board.Rq;
 import com.sbs.java.board.container.Container;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class MemberController {
   int memberLastId;
@@ -105,7 +104,7 @@ public class MemberController {
     System.out.printf("\"%s\"님 회원 가입 되었습니다.\n", member.name);
   }
 
-  public void actionLogin() {
+  public void actionLogin(Rq rq) {
     String username;
     String password;
     Member member;
@@ -161,6 +160,8 @@ public class MemberController {
       break;
     }
     // password 입력 끝
+
+    rq.setSessionAttr("loginedMember", member);
 
     System.out.printf("\"%s\"님 로그인 되었습니다.\n", member.username);
   }
