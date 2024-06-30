@@ -59,4 +59,25 @@ public class Rq {
   public void removeSessionAttr(String attrName) {
     session.removeAttribute(attrName);
   }
+
+
+  // 로그인이 된 경우 : true
+  // 로그인이 안 된 경우 : false
+  public boolean isLogined() {
+    return hasSessionAttr("loginedMember");
+  }
+
+  public boolean isNotLogined() {
+    return !isLogined();
+  }
+  
+  // 로그인 : 로그인 정보를 세션에 저장
+  public void login(String attrName, Object value) {
+    session.setAttribute(attrName, value);
+  }
+
+  // 로그아웃 : 로그인 정보를 세션에서 삭제
+  public void logout() {
+    session.removeAttribute("loginedMember");
+  }
 }

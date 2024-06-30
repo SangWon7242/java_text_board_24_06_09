@@ -47,6 +47,8 @@ public class App {
         memberController.actionJoin();
       } else if (rq.getUrlPath().equals("/usr/member/login")) {
         memberController.actionLogin(rq);
+      } else if (rq.getUrlPath().equals("/usr/member/logout")) {
+        memberController.actionLogout(rq);
       } else if (cmd.equals("exit")) {
         System.out.println("== 자바 텍스트 게시판 종료 ==");
         break;

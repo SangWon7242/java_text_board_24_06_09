@@ -105,6 +105,13 @@ public class MemberController {
   }
 
   public void actionLogin(Rq rq) {
+    boolean isLogined = rq.isLogined();
+
+    if(isLogined) {
+      System.out.println("이미 로그인 상태입니다.");
+      return;
+    }
+
     String username;
     String password;
     Member member;
@@ -161,7 +168,7 @@ public class MemberController {
     }
     // password 입력 끝
 
-    rq.setSessionAttr("loginedMember", member);
+    rq.login("loginedMember", member);
 
     System.out.printf("\"%s\"님 로그인 되었습니다.\n", member.username);
   }
@@ -174,5 +181,16 @@ public class MemberController {
         .orElse(null);
 
     return member;
+  }
+
+  public void actionLogout(Rq rq) {
+    if(rq.isNotLogined()) {
+      System.out.println("이미 로그아웃 상태입니다.");
+      return;
+    }
+
+    rq.logout(); // 로그아웃 처리
+
+    System.out.println("로그아웃 되었습니다.");
   }
 }
