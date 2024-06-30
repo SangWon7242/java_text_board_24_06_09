@@ -20,7 +20,7 @@ public class ArticleController {
     makeTestData();
 
     if (!articles.isEmpty()) {
-      articleLastId = articles.get(articles.size() - 1).id;
+      articleLastId = articles.get(articles.size() - 1).getId();
     }
   }
 
@@ -52,7 +52,7 @@ public class ArticleController {
 
     articles.add(article);
 
-    System.out.printf("%d번 게시물이 등록되었습니다.\n", article.id);
+    System.out.printf("%d번 게시물이 등록되었습니다.\n", article.getId());
   }
 
   public void showDetail(Rq rq) {
@@ -76,9 +76,9 @@ public class ArticleController {
     }
 
     System.out.println("== 게시물 상세보기 ==");
-    System.out.printf("번호 : %d\n", article.id);
-    System.out.printf("제목 : %s\n", article.title);
-    System.out.printf("내용 : %s\n", article.content);
+    System.out.printf("번호 : %d\n", article.getId());
+    System.out.printf("제목 : %s\n", article.getTitle());
+    System.out.printf("내용 : %s\n", article.getContent());
   }
 
   public void showList(Rq rq) {
@@ -96,7 +96,7 @@ public class ArticleController {
       filteredArticles = new ArrayList<>();
 
       for (Article article : articles) {
-        if (article.title.contains(searchKeyword) || article.content.contains(searchKeyword)) {
+        if (article.getTitle().contains(searchKeyword) || article.getTitle().contains(searchKeyword)) {
           filteredArticles.add(article);
         }
       }
@@ -113,7 +113,7 @@ public class ArticleController {
 
     // 게시물 리스트 출력
     for (Article article : sortedArticles) {
-      System.out.printf("%d | %s\n", article.id, article.title);
+      System.out.printf("%d | %s\n", article.getId(), article.getTitle());
     }
   }
 
@@ -138,9 +138,9 @@ public class ArticleController {
     }
 
     System.out.print("새 내용 : ");
-    article.title = Container.sc.nextLine();
+    article.setTitle(Container.sc.nextLine());
     System.out.print("새 제목 : ");
-    article.content = Container.sc.nextLine();
+    article.setContent(Container.sc.nextLine());
 
     System.out.printf("%d번 게시물을 수정하였습니다.\n", id);
   }
@@ -172,7 +172,7 @@ public class ArticleController {
 
   private Article articleFindById(int id, List<Article> articles) {
     for (Article article : articles) {
-      if (article.id == id) {
+      if (article.getId() == id) {
         return article;
       }
     }

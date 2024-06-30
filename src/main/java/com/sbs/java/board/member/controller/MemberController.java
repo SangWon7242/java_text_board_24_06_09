@@ -18,7 +18,7 @@ public class MemberController {
     makeTestData();
 
     if (!members.isEmpty()) {
-      memberLastId = members.get(members.size() - 1).id;
+      memberLastId = members.get(members.size() - 1).getId();
     }
   }
 
@@ -101,7 +101,7 @@ public class MemberController {
 
     members.add(member);
 
-    System.out.printf("\"%s\"님 회원 가입 되었습니다.\n", member.name);
+    System.out.printf("\"%s\"님 회원 가입 되었습니다.\n", member.getName());
   }
 
   public void actionLogin(Rq rq) {
@@ -157,7 +157,7 @@ public class MemberController {
         continue;
       }
 
-      if(!member.password.equals(password)) {
+      if(!member.getPassword().equals(password)) {
         tryPasswordCount++;
 
         System.out.printf("비밀번호가 일치하지 않습니다.(틀린 횟수 : %d/%d)\n", tryPasswordCount, tryPasswordMaxCount);
@@ -170,13 +170,13 @@ public class MemberController {
 
     rq.login("loginedMember", member);
 
-    System.out.printf("\"%s\"님 로그인 되었습니다.\n", member.username);
+    System.out.printf("\"%s\"님 로그인 되었습니다.\n", member.getUsername());
   }
 
   private Member memberFindByUserName(String username) {
     Member member = members
         .stream()
-        .filter(m -> m.username.equals(username)) // 해당 녀석이 참인 것만 필터링
+        .filter(m -> m.getUsername().equals(username)) // 해당 녀석이 참인 것만 필터링
         .findFirst() // 필터링 결과가 하나만 남는데, 그 하나 남을 가져온다.
         .orElse(null);
 

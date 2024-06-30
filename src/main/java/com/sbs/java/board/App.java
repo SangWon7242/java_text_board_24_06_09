@@ -24,7 +24,7 @@ public class App {
       String promptName = "명령";
 
       if(loginedMember != null) {
-        promptName = loginedMember.username;
+        promptName = loginedMember.getUsername();
       }
 
       System.out.printf("%s) ", promptName);
